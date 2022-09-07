@@ -21,15 +21,21 @@ let minBoundary = 1;
 let maxBoundary = 100;
 
 export default function GameScreen(props) {
-  const { userNumber, onGameOver } = props;
+  const { userNumber, onGameOver, addRound, rounds } = props;
   const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
 
   useEffect(() => {
     if (currentGuess === userNumber) {
       onGameOver();
+      minBoundary = 1;
+      maxBoundary = 100;
     }
   }, [currentGuess, userNumber, onGameOver]);
+
+  // useEffect(() => {
+
+  // }, []);
 
   function nextGuessHandler(direction) {
     if (
@@ -55,6 +61,7 @@ export default function GameScreen(props) {
       maxBoundary,
       currentGuess
     );
+    addRound();
 
     setCurrentGuess(newRndNumber);
   }
@@ -81,7 +88,9 @@ export default function GameScreen(props) {
           </View>
         </View>
       </Card>
-      <View>{/* LOG ROUNDS */}</View>
+      <View>
+        <Text>Round {rounds}</Text>
+      </View>
     </View>
   );
 }
